@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-5 offset-md-2">
+      <div class="card">
+        <div class="card-header card-header-primary">
+          <h4 class="card-title">Login</h4>
+          <p class="card-category"></p>
+        </div>
+        <div class="card-body">
+        {% if error_message is not None %}
+        <div class="alert alert-danger">
+            <button type="button" class="close" data-dismiss="alert">
+            </button>
+            <span>
+                <b> {{ error_message }}</span>
+        </div>
+        {% endif %}
+          <form method="POST" action="login"> {% csrf_token %}
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label class="bmd-label-floating">Username/Email</label>
+                  <input type="text" class="form-control" name = "username">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                    <label class="bmd-label-floating">Password</label>
+                    <input type="password" class="form-control" name = "password">
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary pull-right">Login</button>
+            Not registered? <a href="signup">Signup</a>
+            <div class="clearfix"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

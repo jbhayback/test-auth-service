@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-1">
+      <div class="card">
+        <div class="card-header card-header-primary">
+          <h4 class="card-title">User Registration</h4>
+          <p class="card-category">Complete your profile</p>
+        </div>
+        <div class="card-body">
+            {% if error_message is not None %}
+            <div class="alert alert-danger">
+                <button type="button" class="close" data-dismiss="alert">
+                  <i class="material-icons">close</i>
+                </button>
+                <span>
+                  <b> {{ error_message }}</span>
+            </div>
+            {% endif %}
+            {% if success_message is not None %}
+            <div class="alert alert-warning">
+                <button type="button" class="close" data-dismiss="alert">
+                </button>
+                <span>
+                  <b> {{ success_message }}</span> <a href="login">Click here to login</a>
+            </div>
+            {% endif %}
+          <form method="POST" action="signup"> {% csrf_token %}
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label class="bmd-label-floating">Username</label>
+                  <input type="text" class="form-control" name = "username">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label class="bmd-label-floating">Email</label> 
+                    <input type="text" class="form-control" name = "email">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label class="bmd-label-floating">Password</label>
+                    <input type="password" class="form-control" name = "password">
+                  </div>
+                </div>
+              </div>
+            <button type="submit" class="btn btn-info pull-right">Signup</button>
+            <div class="clearfix"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

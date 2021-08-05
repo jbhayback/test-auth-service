@@ -1,0 +1,25 @@
+version: '3'
+
+volumes:
+  db-data:
+    external: false
+
+services:
+  db:
+    image: postgres
+    ports:
+      - 5432:5432
+    env_file: .docker-env
+    volumes:
+      - db-data:/var/lib/postgresql/db-data
+
+  app:
+    build: .
+    env_file: .docker-env
+    command: 'sh -c "python ./api/manage.py migrate && python ./api/manage.py runserver 0.0.0.0:8000"'
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - '8000:8000'
+    depends_on:
+      - db
