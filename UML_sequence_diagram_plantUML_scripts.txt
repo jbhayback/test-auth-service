@@ -1,0 +1,206 @@
+USER SIGNUP
+=====================================================
+@startuml
+User-> API: POST: {username, password, email}
+API -> Server: Validate Data
+
+alt Validation Successful
+
+   Server -> Server : Save user info to Database
+   Server -> API : Success
+   API -> User: Response {Message, status=HTTP_201_CREATED}
+
+else Validation Failed
+
+   Server -> API: Fail
+   API -> User: Response {Message, status=HTTP_400_BAD_REQUEST}
+end
+@enduml
+=====================================================
+USER LOGIN
+=====================================================
+@startuml
+User-> API: POST: {username(can be email/username), password}
+API -> Server: Validate Data
+
+alt Validation Successful
+
+   Server -> Server : Authenticate User
+
+   alt Authentication Successful
+
+      Server -> API : Success
+      API -> User: Response {Message, status=HTTP_200_OK}
+
+   else Authentication Fail
+
+      Server -> API : Fail
+      API -> User: Response {Message, status=HTTP_401_UNAUTHORIZED}
+
+   end
+
+else Validation Failed
+
+   Server -> API: Fail
+   API -> User: Response {Message, status=HTTP_400_BAD_REQUEST}
+
+end
+@enduml
+=====================================================
+PERMISSIONS
+=====================================================
+@startuml
+User-> API: GET
+API -> Server: Authenticate User
+
+alt Authentication Successful
+
+   Server -> API : Success
+   API -> User : Response {Data, status=HTTP_200_OK}
+
+else Authentication Failed
+
+   Server -> API: Fail
+   API -> User: Response {Message, status=HTTP_401_UNAUTHORIZED}
+
+end
+
+User -> API: POST {codename, name}
+API -> Server: Authenticate User
+
+alt Authentication Successful
+   Server -> Server: Validate data
+   
+   alt Validation Successful
+
+      Server -> Server: Save new permission to database
+      Server -> API: Success
+      API -> User: Response {Message, status=HTTP_201_CREATED}
+      
+   else Validation Fail
+
+     Server -> API: Fail
+     API -> User: Response {Message, status=HTTP_409_CONFLICT}
+
+   end
+
+else Authenticate Failed
+
+   Server -> API: Fail
+   API -> User: Response {Message, status=HTTP_401_UNAUTHORIZED}
+end
+@enduml
+=====================================================
+ROLES
+=====================================================
+@startuml
+User-> API: GET
+API -> Server: Authenticate User
+
+alt Authentication Successful
+
+   Server -> API : Success
+   API -> User : Response {Data, status=HTTP_200_OK}
+
+else Authentication Failed
+
+   Server -> API: Fail
+   API -> User: Response {Message, status=HTTP_401_UNAUTHORIZED}
+
+end
+
+User -> API: POST {permission_codename, role_name}
+API -> Server: Authenticate User
+
+alt Authentication Successful
+   Server -> Server: Validate data
+   
+   alt Validation Successful
+
+      Server -> Server: Save new role to database
+      Server -> API: Success
+      API -> User: Response {Message, status=HTTP_201_CREATED}
+      
+   else Validation Data Fail
+
+     Server -> API: Fail
+     API -> User: Response {Message, status=HTTP_409_CONFLICT}
+
+   end
+
+else Authentication Failed
+
+   Server -> API: Fail
+   API -> User: Response {Message, status=HTTP_401_UNAUTHORIZED}
+end
+@enduml
+=====================================================
+USER ROLES
+=====================================================
+@startuml
+User-> API: GET {id(user_id)}
+API -> Server: Authenticate User
+
+alt Authentication Successful
+
+   Server -> API : Success
+   API -> User : Response {Data, status=HTTP_200_OK}
+
+else Authentication Failed
+
+   Server -> API: Fail
+   API -> User: Response {Message, status=HTTP_401_UNAUTHORIZED}
+end
+
+User -> API: POST {id(user_id), roles}
+API -> Server: Authenticate User
+
+alt Authentication Successful
+
+   Server -> Server: Validate data
+
+   alt Validation Successful
+
+       Server -> Server: Add roles to user in database
+       Server-> API: Success
+       API -> User: Response: {Message, status=HTTP_201_CREATED}
+   
+    else Validation Failed
+       Server -> API: Fail
+       API -> User: Response {Message, status=(HTTP_400_BAD_REQUEST,HTTP_409_CONFLICT)}
+    end
+
+else AuthenticationFailed
+
+   Server -> API: Fail
+   API -> User: Response {Message, status=HTTP_401_UNAUTHORIZED}
+
+end
+@enduml
+=====================================================
+USER PERMISSIONS
+=====================================================
+@startuml
+User -> API: POST {id(userid), permission_ids}
+API -> Server: Authenticate User
+
+alt Authentication Successful
+
+   Server -> Server: Validate data
+
+   alt Validation Successful
+
+       Server-> API: Success
+       API -> User: Response: {Data, status=HTTP_200_OK}
+   
+    else Validate Failed
+       Server -> API: Fail
+       API -> User: Response {Message, status=HTTP_400_BAD_REQUEST,HTTP_409_CONFLICT}
+    end
+
+else Authentication Failed
+
+   Server -> API: Failed reponse
+   API -> User: Response {Message, status=HTTP_401_UNAUTHORIZED}
+end
+@enduml

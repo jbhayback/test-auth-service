@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 from django.conf import settings
-from django.conf.urls import include
+from django.conf.urls import include, url
 from rest_framework.schemas import get_schema_view
 from rest_framework.documentation import include_docs_urls
 from django.conf.urls.static import static
@@ -28,11 +28,11 @@ urlpatterns = [
     path('api/schema/', schema_view),
     path('api/browser/', api_browser_urls),
     path('api/admin/', admin.site.urls),
-    path('login', ProcessLoginView.as_view()),
     path('', DashBoardView.as_view()),
-    path('dashboard', DashBoardView.as_view()),
-    path('logout', UserLogoutView.as_view()),
-    path('signup', UserSignUpView.as_view()),
+    url(r'^login/?$', ProcessLoginView.as_view()),
+    url(r'^dashboard/?$', DashBoardView.as_view()),
+    url(r'^logout/?$', UserLogoutView.as_view()),
+    url(r'^signup/?$', UserSignUpView.as_view()),
 ]
 
 urlpatterns += router.urls

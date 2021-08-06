@@ -56,7 +56,6 @@ INSTALLED_APPS = [
     'django_filters',
     'django_extensions',
     'django.contrib.postgres',
-    'bootstrap4',
 ]
 
 # Rest Framework Settings

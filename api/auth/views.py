@@ -15,7 +15,6 @@ from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import generics, permissions, status, views
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
-from rest_framework.exceptions import PermissionDenied
 
 from djoser import utils, signals
 from djoser.conf import settings
@@ -69,7 +68,7 @@ class LoginView(utils.ActionViewMixin, generics.GenericAPIView):
     def _action(self, serializer):
         token = utils.login_user(self.request, serializer.user)
         token_serializer_class = serializers.TokenSerializer
-        data = {"token":token_serializer_class(token).data, 
+        data = {"token":token_serializer_class(token).data,
             "userid":serializer.user.id,
             "username": serializer.user.username
         }
@@ -87,7 +86,7 @@ class LogoutView(views.APIView):
 
 class PermissionsView(utils.ActionViewMixin, generics.GenericAPIView):
     serializer_class = serializers.CreatePermissionsSerializer
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
         return Response(User(is_superuser=True).get_all_permissions())
@@ -114,7 +113,7 @@ class PermissionsView(utils.ActionViewMixin, generics.GenericAPIView):
 
 class RolesView(utils.ActionViewMixin, generics.GenericAPIView):
     serializer_class = serializers.CreateRolesSerializer
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
         return Response({group.name: group.id for group in Group.objects.all()})

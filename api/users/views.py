@@ -14,7 +14,7 @@ from . import serializers
 User = get_user_model()
 
 class UserPermissionsView(generics.CreateAPIView):
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = serializers.CreateUserPermissionsSerializer
 
     def post(self, request, id):
@@ -52,7 +52,6 @@ class UserRolesView(generics.CreateAPIView):
 
     def post(self, request, id):
         roles = request.POST.get('roles')
-        print(request.POST)
         if not roles:
             content = {"message": f"'roles' field is required."}
             return Response(data=content, status=status.HTTP_400_BAD_REQUEST)
@@ -72,4 +71,3 @@ class UserRolesView(generics.CreateAPIView):
 
         content = {"message": f"{role} has been added to user."}
         return Response(data=content, status=status.HTTP_201_CREATED)
-    
