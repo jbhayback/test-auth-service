@@ -247,9 +247,9 @@ This project is a basic authentication flow service - with roles and permissions
     ```
 - ### Functional Testing
     - Access
-        * http:localhost:8000/signup/ - signup
-        * http:localhost:8000/login/ - login
-        * http:localhost:8000/dashboard/ - user permissions dashboard (you have to be logged in before you can access it)
+        * http://localhost:8000/signup/ - signup
+        * http://localhost:8000/login/ - login
+        * http://localhost:8000/dashboard/ - user permissions dashboard (you have to be logged in before you can access it)
     - For minikube, the links will be dependent on the host and port (`URL`) that will be provided after executing the code below.
     ```
     $ minikube service app
