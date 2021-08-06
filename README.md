@@ -18,7 +18,7 @@
       </ul>
     </li>
     <li><a href="#auth-service-endpoints">Auth Service Endpoints</a></li>
-    <li><a href="#sser-nterface">User Interface</a></li>
+    <li><a href="#user-interface">User Interface</a></li>
     <li><a href="#other-endpoints">Other Endpoints</a></li>
     <li><a href="#testing">Testing</a></li>
     <li><a href="#contact">Contact</a></li>
@@ -28,7 +28,7 @@
 
 ## About The Project
 
-[![Authentication API Service][product-screenshot]](https://example.com)
+**Authentication API Service**
 
 This project is a basic authentication flow service - with roles and permissions.
 
@@ -47,6 +47,7 @@ This project is a basic authentication flow service - with roles and permissions
         * `username`
         * `email`
         * `paswword`
+    * ![signup-diagram](https://github.com/jbhayback/test-auth-service/blob/master/UMLDiagrams/signup.png)
  ```
   /api/signup
  ```
@@ -54,6 +55,7 @@ This project is a basic authentication flow service - with roles and permissions
     * `POST` - Login with username, password or email, password combo. Token will be issued to be used for authorization
         * `username` - can be email or password
         * `paswword`
+    * ![login-diagram](https://github.com/jbhayback/test-auth-service/blob/master/UMLDiagrams/login.png)
  ```
   /api/login
  ```
@@ -62,14 +64,16 @@ This project is a basic authentication flow service - with roles and permissions
     * `POST` - create new permissions
         * `codename` - permission codename
         * `name` - permission verbose name
+    * ![permissions-diagram](https://github.com/jbhayback/test-auth-service/blob/master/UMLDiagrams/permissions.png)
  ```
   /api/permissions
  ```
-- **Role**s
+- **Roles**
     * `GET` - get all available roles
     * `POST` - create roles with specific permission
         * `permission_codename` - codename of permission to be associated with the new role
         * `role_name` - role name to be created
+    * ![roles-diagram](https://github.com/jbhayback/test-auth-service/blob/master/UMLDiagrams/roles.png)
  ```
   /api/roles
  ```
@@ -78,6 +82,7 @@ This project is a basic authentication flow service - with roles and permissions
     * `POST` - create roles with certains permission for a specific user
         * `roles` - comma-separated list of roles
         * `id` - user id
+     * ![user-roles-diagram](https://github.com/jbhayback/test-auth-service/blob/master/UMLDiagrams/user_roles.png)
  ```
   /api/users/{:id}/roles
  ```
@@ -85,6 +90,7 @@ This project is a basic authentication flow service - with roles and permissions
     * `POST` - retrieve all available permissions specific a user
         * `permission_ids` - comma-separated list of permission id to be queried
         * `id` - user id
+    * ![user-permissions-diagram](https://github.com/jbhayback/test-auth-service/blob/master/UMLDiagrams/user_permissions.png)
  ```
   /api/users/{:id}/permissions
  ```
