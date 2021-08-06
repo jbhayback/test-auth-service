@@ -254,6 +254,7 @@ This project is a basic authentication flow service - with roles and permissions
     ```
     $ minikube service app
     ```
+    - **IMPORTANT**: For `dashboard` to have values displayed, roles with certain permissions has to be added to the user first. If a user has not been assigned with any role, then he has no permissions yet.
 
  # Contact
 - You can contact me via email:jbhayback@gmail.com for more info or if there are errors during the setup.
