@@ -18,6 +18,7 @@
       </ul>
     </li>
     <li><a href="#auth-service-endpoints">Auth Service Endpoints</a></li>
+    <li><a href="#entity-relationship-diagrams">Entity Relationship Diagrams</a></li>
     <li><a href="#user-interface">User Interface</a></li>
     <li><a href="#other-endpoints">Other Endpoints</a></li>
     <li><a href="#testing">Testing</a></li>
@@ -108,6 +109,9 @@ This project is a basic authentication flow service - with roles and permissions
   /api/users/{:id}/permissions
  ```
 
+ ## Entity Relationship Diagrams
+ - You can access the ERDs in [ERDiagrams](https://github.com/jbhayback/test-auth-service/tree/master/ERDiagrams) folder.
+
  ## User Interface
  - User Signup
  ```
@@ -134,19 +138,19 @@ This project is a basic authentication flow service - with roles and permissions
 
 ## Setup
 - ## Local Setup
-    - Create python virtual env
+    - Create python virtual env and activate it
     ```
     $ virtualenv -p python .venv
     ```
-    - Install Requirements
+    - Install required python modules
     ```
-    $ pip install -r api/requiremts.txt
+    $ pip install -r api/requirements.txt
     ```
     - Rename .env.to.rename to .env to use already configured env file
     ```
     $ mv .env.to.rename .env
     ```
-    - Create postgres database
+    - Create database in postgres DB
     ```
     $ sudo su postgres
     $ psql
@@ -252,4 +256,4 @@ This project is a basic authentication flow service - with roles and permissions
     ```
 
  # Contact
-- You can contact me via email:jbhayback@gmail.com for more info.
+- You can contact me via email:jbhayback@gmail.com for more info or if there are errors during the setup.
