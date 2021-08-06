@@ -35,11 +35,24 @@ This project is a basic authentication flow service - with roles and permissions
 ### Built With
 * [Django](https://www.djangoproject.com/) - Web
 * [Django Rest Framework](https://www.django-rest-framework.org/) - API
-* [Bootstap](https://getbootstrap.com/) - UI
+* [Bootstrap](https://getbootstrap.com/) - UI
 
 ## Getting Started
 - ### Prerequisites
-    * Docker
+  - Local
+    * [Python](https://www.python.org/) (at least version 3.7)
+    * [PostgreSQL](https://www.postgresql.org/)
+    * [virtualenv](https://virtualenv.pypa.io/en/latest/)
+  - Docker Compose
+    * [Docker](https://www.docker.com/)
+      * [Installation](https://docs.docker.com/engine/install/)
+    * [Docker compose](https://docs.docker.com/compose/)
+      * [Installation](https://docs.docker.com/compose/install/)
+  - Minikube
+    * [Minikube](https://minikube.sigs.k8s.io/docs/)
+      * [Installation](https://v1-18.docs.kubernetes.io/docs/tasks/tools/install-minikube/)
+    * [kubectl](https://kubernetes.io/docs/reference/kubectl/overview/)
+      * [Installation](https://kubernetes.io/docs/tasks/tools/)
 
 ## Auth Service Endpoints
  - **User Signup**
@@ -150,7 +163,7 @@ This project is a basic authentication flow service - with roles and permissions
     ```
     $ python api/manage.py migrate && python api/manage.py runserver 0.0.0.0:8000
     ```
-    - Perform **`createsuperuser`** before using the API
+    - Perform **`createsuperuser`** before using the API. You will be asked to input email, username and password for the admin you want to create.
     ```
     $ python api/manage.py createsuperuser
     ```
@@ -160,11 +173,7 @@ This project is a basic authentication flow service - with roles and permissions
     ```
     $ mv .env.to.rename .env
     ```
-    - Rename .docker-env.to.rename to .docker-env to use already configured docker-env file
-    ```
-    $ mv .docker-env.to.rename .docker-env
-    ```
-    - Build app
+    - Build `app` and `db` images
     ```
     $ docker-compose build
     ```
@@ -172,9 +181,50 @@ This project is a basic authentication flow service - with roles and permissions
     ```
     $ docker-compose up
     ```
-    - In another opened terminal instance within the same project directory, perform **`createsuperuser`** before using the API
+    - In another opened terminal instance within the same project directory, perform **`createsuperuser`** before using the API. You will be asked to input email, username and password for the admin you want to create.
     ```
     $ docker-compose run app python ./api/manage.py createsuperuser
+    ```
+- ## Minikube Deployment Setup
+    - Rename .env.to.rename to .env to use already configured env file
+    ```
+    $ mv .env.to.rename .env
+    ```
+    - Start minikube
+    ```
+    $ minikube start
+    ```
+    - Enable the Ingress and Metric Server in your minikube.
+    ```
+    $ minikube addons enable ingress
+    $ minikube addons enable metrics-server
+    ```
+    - Configure your docker CLI to point to the minikube VM
+    ```
+    $ eval $(minikube docker-env)
+    ```
+    - Build `app` and `db` images
+    ```
+    $ docker-compose build
+    ```
+    - Deploy app and db to minikube
+    ```
+    $ kubectl apply -f kube_deployment/
+    ```
+    - Check all the pods running after deployment. You should see 2 pods with prefix `app` and `db`. You can see something like on the image below:
+      * ![kubectl-get-pods-example](https://github.com/jbhayback/test-auth-service/blob/master/api/static/screenshots/kubectl-get-pods-example.JPG)
+    ```
+    $ kubectl get pods
+    ```
+    - Perform **`createsuperuser`** in `app` pod before using the API. You will be asked to input email, username and password for the admin you want to create.
+    ```
+    $ kubectl exec <app-podname> -it python ./api/manage.py createsuperuser
+    ```
+    - To access the app, get host and port and use the `URL`(host) provided to access the application. See example image below.
+      * ![minikube-service-app-example](https://github.com/jbhayback/test-auth-service/blob/master/api/static/screenshots/minikube-service-app-example.JPG)
+
+    ```
+    $ minikube service app
     ```
 
  ## Testing
@@ -185,13 +235,21 @@ This project is a basic authentication flow service - with roles and permissions
     ```
     - **Docker Compose**
     ```
-    $ docker-compose run app python ./api/manage.py test auth --noinput
+    $ docker-compose run app python ./api/manage.py test auth
+    ```
+    - **Minikube**
+    ```
+    $ kubectl exec <app-podname> -it python ./api/manage.py test auth
     ```
 - ### Functional Testing
     - Access
         * http:localhost:8000/signup/ - signup
         * http:localhost:8000/login/ - login
         * http:localhost:8000/dashboard/ - user permissions dashboard (you have to be logged in before you can access it)
+    - For minikube, the links will be dependent on the host and port (`URL`) that will be provided after executing the code below.
+    ```
+    $ minikube service app
+    ```
 
  # Contact
 - You can contact me via email:jbhayback@gmail.com for more info.
