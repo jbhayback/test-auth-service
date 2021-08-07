@@ -220,7 +220,7 @@ This project is a basic authentication flow service - with roles and permissions
     ```
     $ kubectl get pods
     ```
-    - Perform **`createsuperuser`** in `app` pod before using the API. You will be asked to input email, username and password for the admin you want to create.
+    - Perform **`createsuperuser`** in `app` pod before using the API. You will be asked to input email, username and password for the admin you want to create. **NOTE**: The `app` pod should be in **Running** state before you can perform the command below.
     ```
     $ kubectl exec <app-podname> -it python ./api/manage.py createsuperuser
     ```
